@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { TermsListService } from './services/terms-list.service';
+import { By } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('AppComponent', () => {
 
@@ -11,7 +13,7 @@ describe('AppComponent', () => {
   beforeEach(async () => {
     termsListServiceSpy = jasmine.createSpyObj('TermsListService',['getListOne']);
     await TestBed.configureTestingModule({
-      imports: [AppComponent],
+      imports: [AppComponent, ReactiveFormsModule],
       providers: [{provide: TermsListService, useValue: termsListServiceSpy}]
     }).compileComponents();
 
@@ -42,6 +44,29 @@ describe('AppComponent', () => {
     termsListServiceSpy.getListOne.and.returnValue(mockList);
     fixture.detectChanges();
     expect(component.list).toEqual(mockList);
+  })
+
+  it('should check that the term form is present', () => {
+    const elements = fixture.debugElement;
+    const formElement = elements.query(By.css('form'));
+    expect(formElement).toBeTruthy();
+  })
+
+  it('should check if term is in required state', () => {
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      const termElement: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#term');
+      termElement.value = '';
+      termElement.dispatchEvent(new Event('input'));
+
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        const btnElement: HTMLButtonElement = fixture.debugElement.nativeElement.querySelector('#button');
+        expect(btnElement.disabled).toBeTruthy();
+        expect(component.termForm.get('term')?.value).toEqual('');
+        expect(component.termForm.valid).toBeFalsy();
+      })
+    })
   })
 
 });

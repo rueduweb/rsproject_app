@@ -1,3 +1,26 @@
 <h1>{{title}}</h1>
 
 
+<form [formGroup]="termForm" (ngSubmit)="onSubmit()">
+    <div>
+        <label for="term">Le terme:</label><br>
+        <input type="text" id="term" formControlName="term"/>
+        @if(termForm.get('term')?.invalid && termForm.get('term')?.touched){
+            <div>
+                @if(termForm.get('term')?.errors?.['required']){
+                    <small>Le terme est obligatoire</small>
+                }
+                @if(termForm.get('term')?.errors?.['minlength']){
+                    <small>Saisir au moins 3 caractères</small>
+                }
+            </div>
+        }
+        
+    </div>
+    <div>
+        <button type="submit" id="button" [disabled]="termForm.invalid">Tester</button>
+    </div>
+</form>
+
+
+
