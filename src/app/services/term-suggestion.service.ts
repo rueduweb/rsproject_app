@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
 
+export interface TermObj  {
+    term: string;
+    diff: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,13 +23,13 @@ export class TermSuggestionService {
     }
   }
 
-  getSuggestions(term: string, termsList: string[], nbSuggestions: number): any[] {
-    const suggestions: any = [];
+  getSuggestions(term: string, termsList: string[], nbSuggestions: number): TermObj[] {
+    let suggestions: TermObj[] = [];
 
     termsList.forEach((termDesc) => {
       let theLenDiff: number = 0;
       theLenDiff = this.getDifferenceScore(termDesc, term)
-      const obj = Object.assign({term :termDesc, diff: theLenDiff})
+      const obj: TermObj = Object.assign({term :termDesc, diff: theLenDiff})
       suggestions.push(obj);
     })
 

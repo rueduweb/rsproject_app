@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { TermsListService } from './services/terms-list.service';
-import { TermSuggestionService } from './services/term-suggestion.service';
+import { TermObj, TermSuggestionService } from './services/term-suggestion.service';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
@@ -17,7 +17,7 @@ export class AppComponent implements OnInit{
   private termSuggestionService = inject(TermSuggestionService);
   
   list: string[] = [];
-  suggestions: any[] = [];
+  suggestions: TermObj[] = [];
   noSuggestion: string = 'Aucune suggestion.'
 
   fb = inject(FormBuilder);
