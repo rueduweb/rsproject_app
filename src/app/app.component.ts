@@ -1,5 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { TermsListService } from './services/terms-list.service';
+import { TermSuggestionService } from './services/term-suggestion.service';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
@@ -12,9 +13,12 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 export class AppComponent implements OnInit{
   title = 'Application de Suggestions de terme';
 
-  termsListService = inject(TermsListService);
+  private termsListService = inject(TermsListService);
+  private termSuggestionService = inject(TermSuggestionService);
   
   list: string[] = [];
+  suggestions: any[] = [];
+  noSuggestion: string = 'Aucune suggestion.'
 
   fb = inject(FormBuilder);
 
@@ -31,6 +35,7 @@ export class AppComponent implements OnInit{
   onSubmit(): void {
     if(!this.termForm.valid) return;
     console.log('Form submitted', this.termForm.value);
+    this.suggestions = this.termSuggestionService.getSuggestions(this.termForm.get('term')?.value, this.list, 2);
   }
 
 }

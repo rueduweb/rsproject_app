@@ -22,5 +22,20 @@
     </div>
 </form>
 
+@if(suggestions.length > 0) {
+    <ul>
+        @for(suggestion of suggestions; track $index) {
+            <li><span>{{suggestion.term}}</span>&nbsp;<span>{{suggestion.diff}}</span></li>
+        }
+    </ul>
+}
+@if(suggestions.length === 0) {
+    <div>
+        {{noSuggestion}}
+    </div>
+}
+
+
+
 
 
