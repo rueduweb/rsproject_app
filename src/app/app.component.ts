@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { TermsListService } from './services/terms-list.service';
 
 
 @Component({
@@ -7,6 +8,14 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
-  title = 'rsproject_app';
+export class AppComponent implements OnInit{
+  title = 'Application de Suggestions de terme';
+
+  termsListService = inject(TermsListService);
+  list: string[] = [];
+
+  ngOnInit(): void {
+    this.list = this.termsListService.getListOne();
+  }
+
 }
