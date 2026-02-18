@@ -33,9 +33,10 @@ export class TermSuggestionService {
       suggestions.push(obj);
     })
 
-    console.log('les suggestions : ', suggestions);
-    return suggestions.sort((a: any, b: any) => {
+    suggestions.sort((a: any, b: any) => {
       return(a.diff - b.diff);
     });
+    suggestions = suggestions.reverse();
+    return suggestions.splice(nbSuggestions, (suggestions.length - nbSuggestions)).reverse();
   }
 }
